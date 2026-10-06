@@ -125,45 +125,6 @@ function startAnsweringPhase(room, io) {
   room.status = 'ANSWERING';
   io.to(`room:${room.code}`).emit('room_state', sanitizeRoomState(room));
 
-  // Schedule simulated answers for bot participants
-  room.botTimeouts = [];
-  for (const p of room.participants.values()) {
-    if (p.isBot) {
-      const maxDelay = Math.max(3, Math.min((room.durationSeconds || 20) - 2, 12));
-      const delayMs = Math.floor(1500 + Math.random() * (maxDelay * 1000 - 1500));
-      const timeoutId = setTimeout(() => {
-        if (room.status !== 'ANSWERING' || p.hasAnsweredCurrent) return;
-        const currentQ = room.questions[room.currentQuestionIndex];
-        const willBeCorrect = Math.random() < 0.75;
-        const choice = willBeCorrect ? currentQ.correctIndex : ((currentQ.correctIndex + 1 + Math.floor(Math.random() * 2)) % 4);
-
-        p.hasAnsweredCurrent = true;
-        p.selectedOption = choice;
-        p.isLastCorrect = willBeCorrect;
-        room.answerDistribution[choice] = (room.answerDistribution[choice] || 0) + 1;
-
-        let points = 0;
-        if (willBeCorrect) {
-          p.streak = (p.streak || 0) + 1;
-          points = currentQ.points ?? 1000;
-          p.score += points;
-        } else {
-          p.streak = 0;
-        }
-        p.lastPointsAwarded = points;
-
-        const answeredCount = Array.from(room.participants.values()).filter(x => x.hasAnsweredCurrent).length;
-        io.to(`room:${room.code}`).emit('answer_update', {
-          studentName: p.name,
-          studentAvatar: p.avatar,
-          answeredCount,
-          totalParticipants: room.participants.size
-        });
-      }, delayMs);
-      room.botTimeouts.push(timeoutId);
-    }
-  }
-
   room.answeringTimer = setInterval(() => {
     room.timeRemaining--;
     io.to(`room:${room.code}`).emit('answering_tick', { timeRemaining: room.timeRemaining });
@@ -226,28 +187,6 @@ app.prepare().then(() => {
       do {
         code = Math.floor(100000 + Math.random() * 900000).toString();
       } while (rooms.has(code));
-      // Initial dummy bots so user can immediately see animations
-      const DUMMY_BOTS = [
-        { name: 'Kevin Pratama', avatar: '🦊', initScore: 0 },
-        { name: 'Nadia Aurelia', avatar: '🦄', initScore: 0 },
-        { name: 'Fajar Ramadhan', avatar: '🚀', initScore: 0 },
-        { name: 'Clara Salsabila', avatar: '🐼', initScore: 0 }
-      ];
-      const initialParticipants = new Map();
-      DUMMY_BOTS.forEach((bot, idx) => {
-        const botId = `bot-${idx + 1}`;
-        initialParticipants.set(botId, {
-          id: botId,
-          name: bot.name,
-          email: `bot${idx + 1}@sekolah.id`,
-          avatar: bot.avatar,
-          score: bot.initScore,
-          streak: 1,
-          isBot: true,
-          hasAnsweredCurrent: false
-        });
-      });
-
       const room = {
         code,
         quizId,
@@ -258,7 +197,7 @@ app.prepare().then(() => {
         status: 'LOBBY',
         currentQuestionIndex: 0,
         questions: quiz.questions,
-        participants: initialParticipants,
+        participants: new Map(),
         previewTimer: null,
         previewSecondsLeft: 4,
         answeringTimer: null,
@@ -271,49 +210,8 @@ app.prepare().then(() => {
       socket.join(`room:${code}`);
       socket.data = { role: 'teacher', roomCode: code };
 
-      console.log(`Room created: ${code} by ${room.teacherName} with 4 dummy bots`);
+      console.log(`Room created: ${code} by ${room.teacherName}`);
       if (callback) callback({ success: true, code, state: sanitizeRoomState(room) });
-    });
-
-    // Toggle Dummy Bots
-    socket.on('add_dummy_bots', ({ code }, callback) => {
-      const room = rooms.get(code);
-      if (!room) return;
-      const DUMMY_BOTS = [
-        { name: 'Kevin Pratama', avatar: '🦊', initScore: 780 },
-        { name: 'Nadia Aurelia', avatar: '🦄', initScore: 890 },
-        { name: 'Fajar Ramadhan', avatar: '🚀', initScore: 620 },
-        { name: 'Clara Salsabila', avatar: '🐼', initScore: 710 }
-      ];
-      DUMMY_BOTS.forEach((bot, idx) => {
-        const botId = `bot-${idx + 1}`;
-        if (!room.participants.has(botId)) {
-          room.participants.set(botId, {
-            id: botId,
-            name: bot.name,
-            email: `bot${idx + 1}@sekolah.id`,
-            avatar: bot.avatar,
-            score: bot.initScore,
-            streak: 1,
-            isBot: true,
-            hasAnsweredCurrent: false
-          });
-        }
-      });
-      io.to(`room:${code}`).emit('room_state', sanitizeRoomState(room));
-      if (callback) callback({ success: true });
-    });
-
-    socket.on('clear_dummy_bots', ({ code }, callback) => {
-      const room = rooms.get(code);
-      if (!room) return;
-      for (const [id, p] of room.participants.entries()) {
-        if (p.isBot) {
-          room.participants.delete(id);
-        }
-      }
-      io.to(`room:${code}`).emit('room_state', sanitizeRoomState(room));
-      if (callback) callback({ success: true });
     });
 
     // Reconnect Host / Get Room State

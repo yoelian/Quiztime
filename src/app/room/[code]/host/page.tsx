@@ -254,29 +254,6 @@ export default function HostRoomPage({ params }: { params: Promise<{ code: strin
                   <Users className="w-4 h-4 text-purple-400" />
                   Siswa di Ruang Tunggu ({room.participants.length})
                 </h3>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const socket = getSocket();
-                      socket.emit('add_dummy_bots', { code });
-                    }}
-                    className="px-3 py-1 rounded-xl bg-purple-600/30 border border-purple-500/50 hover:bg-purple-600 text-purple-200 text-xs font-bold transition-all cursor-pointer"
-                  >
-                    🤖 Tambah Siswa Bot
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const socket = getSocket();
-                      socket.emit('clear_dummy_bots', { code });
-                    }}
-                    className="px-2.5 py-1 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-400 hover:text-rose-300 text-xs font-bold transition-all cursor-pointer"
-                    title="Hapus Semua Siswa Bot"
-                  >
-                    Reset Bot
-                  </button>
-                </div>
               </div>
 
               {room.participants.length === 0 ? (
