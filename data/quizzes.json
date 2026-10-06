@@ -1,0 +1,64 @@
+[
+  {
+    "id": "quiz-seru-1",
+    "title": "Kuis Kelas XI🌟",
+    "description": "Kuis pembuka kelas yang seru dan menantang untuk menguji ketangkasan berpikir!",
+    "teacherEmail": "budi.guru@gmail.com",
+    "teacherName": "Pak Budi Santoso",
+    "createdAt": "2026-10-06T06:52:26.262Z",
+    "questions": [
+      {
+        "id": "q-1",
+        "question": "Planet apakah yang paling dekat dengan Matahari di tata surya kita?",
+        "options": [
+          "Venus",
+          "Merkurius",
+          "Mars",
+          "Bumi"
+        ],
+        "correctIndex": 1,
+        "durationSeconds": 20,
+        "points": 500
+      },
+      {
+        "id": "q-2",
+        "question": "Ibu kota negara Indonesia yang baru di Kalimantan Timur adalah...?",
+        "options": [
+          "Nusantara (IKN)",
+          "Balikpapan",
+          "Samarinda",
+          "Banjarmasin"
+        ],
+        "correctIndex": 0,
+        "durationSeconds": 20,
+        "points": 500
+      },
+      {
+        "id": "q-3",
+        "question": "Hewan mamalia terbesar di dunia saat ini adalah...?",
+        "options": [
+          "Gajah Afrika",
+          "Hiu Paus",
+          "Paus Biru",
+          "Jerapah"
+        ],
+        "correctIndex": 2,
+        "durationSeconds": 20,
+        "points": 500
+      },
+      {
+        "id": "q-4",
+        "question": "Gas apa yang paling banyak dihirup manusia saat bernapas secara alami di bumi?",
+        "options": [
+          "Oksigen murni",
+          "Nitrogen",
+          "Karbon Dioksida",
+          "Helium"
+        ],
+        "correctIndex": 1,
+        "durationSeconds": 20,
+        "points": 500
+      }
+    ]
+  }
+]
