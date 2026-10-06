@@ -12,26 +12,6 @@ export const authOptions: NextAuthOptions = {
           }),
         ]
       : []),
-    CredentialsProvider({
-      id: "quick-login",
-      name: "Google Quick Sign In",
-      credentials: {
-        name: { label: "Nama Lengkap", type: "text" },
-        email: { label: "Email Google", type: "email" },
-        image: { label: "Foto Profil / Avatar", type: "text" },
-        role: { label: "Role (teacher / student)", type: "text" }
-      },
-      async authorize(credentials) {
-        if (!credentials) return null;
-        return {
-          id: credentials.email || `user-${Date.now()}`,
-          name: credentials.name || "Siswa Ceria",
-          email: credentials.email || "siswa@gmail.com",
-          image: credentials.image || "https://api.dicebear.com/7.x/bottts/svg?seed=siswa",
-          role: credentials.role || "student"
-        };
-      }
-    })
   ],
   callbacks: {
     async jwt({ token, user }) {
