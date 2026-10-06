@@ -112,7 +112,7 @@ function JoinContent() {
                 Masuk Akun Google Resmi
               </button>
               <p className="text-[11px] text-slate-400">
-                Atau langsung ketik nama di bawah untuk simulasi langsung:
+                Atau langsung ketik nama di bawah untuk langsung bergabung:
               </p>
             </div>
           )}
