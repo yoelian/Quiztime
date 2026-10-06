@@ -1,4 +1,4 @@
-# 🎮 Playful Quiz - Web Kuis Interaktif Realtime Kelas
+# 🎮 Quiztime - Web Kuis Interaktif Realtime Kelas
 
 Aplikasi kuis interaktif multiplayer realtime ala **Kahoot / Quizizz** yang didesain playful, responsif, dan menyenangkan untuk interaksi antara **Guru (Host)** dan **Siswa (Peserta)**.
 

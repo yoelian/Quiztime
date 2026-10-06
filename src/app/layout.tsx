@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Playful Quiz 🎉 | Kuis Interaktif Kelas Realtime",
+  title: "Quiztime 🎉 | Kuis Interaktif Kelas Realtime",
   description: "Platform kuis interaktif kelas ceria & seru dengan sinkronisasi realtime guru dan siswa.",
 };
 

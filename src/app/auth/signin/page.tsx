@@ -45,7 +45,7 @@ function SignInContent() {
             <div className="inline-flex p-3 rounded-2xl bg-gradient-to-tr from-pink-500 to-indigo-600 text-white shadow-lg shadow-pink-500/25 mb-3">
               <Sparkles className="w-8 h-8" />
             </div>
-            <h1 className="text-2xl font-black text-white">Masuk ke PlayfulQuiz</h1>
+            <h1 className="text-2xl font-black text-white">Masuk ke Quiztime</h1>
             <p className="text-slate-400 text-sm mt-1">
               Gunakan Akun Google untuk mengakses kuis sebagai Guru atau Siswa.
             </p>

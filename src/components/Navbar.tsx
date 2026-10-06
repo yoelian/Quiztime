@@ -27,7 +27,7 @@ export default function Navbar() {
           </div>
           <div>
             <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-              Playful<span className="text-yellow-400">Quiz</span>
+              Quiz<span className="text-yellow-400">time</span>
             </span>
             <span className="block text-[10px] text-slate-400 font-medium -mt-1 tracking-wider uppercase">
               Realtime Class Arena
